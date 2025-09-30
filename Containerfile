@@ -1,24 +1,25 @@
 FROM alpine:latest
 
 # Set environment variables
-ENV LOKI_VERSION="2.9.0" # Use a specific version for Loki
+## Use a specific version for Loki
+ENV LOKI_VERSION="2.9.0" 
 ENV LOKI_CONFIG_FILE="/etc/loki/config.yaml"
 
 # Install dependencies and download Loki
 RUN apk add --no-cache \
     ca-certificates \
     wget \
-    unzip \
-    # Download Loki binary
-    && wget -q -O /tmp/loki.zip "https://github.com/grafana/loki/releases/download/v${LOKI_VERSION}/loki-linux-amd64.zip" \
-    && unzip /tmp/loki.zip -d /usr/local/bin \
-    && mv /usr/local/bin/loki-linux-amd64 /usr/local/bin/loki \
-    && rm /tmp/loki.zip \
-    && chmod +x /usr/local/bin/loki \
-    # Create configuration directory
-    && mkdir -p /etc/loki \
-    # Create data directory
-    && mkdir -p /var/lib/loki
+    unzip
+# Download Loki binary
+RUN wget -q -O /tmp/loki.zip "https://github.com/grafana/loki/releases/download/v${LOKI_VERSION}/loki-linux-amd64.zip"
+RUN unzip /tmp/loki.zip -d /usr/local/bin
+RUN mv /usr/local/bin/loki-linux-amd64 /usr/local/bin/loki
+RUN rm /tmp/loki.zip
+RUN chmod +x /usr/local/bin/loki
+# Create configuration directory
+RUN mkdir -p /etc/loki
+# Create data directory
+RUN mkdir -p /var/lib/loki
 
 # Expose Loki's default HTTP port
 EXPOSE 3100
