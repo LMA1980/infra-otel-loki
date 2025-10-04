@@ -1,7 +1,8 @@
 FROM alpine:latest
 
 # Set environment variables
-ENV LOKI_VERSION="2.9.0" # Use a specific version for Loki
+## Use a specific version for Loki
+ENV LOKI_VERSION="2.9.0" 
 ENV LOKI_CONFIG_FILE="/etc/loki/config.yaml"
 
 # Install dependencies and download Loki
